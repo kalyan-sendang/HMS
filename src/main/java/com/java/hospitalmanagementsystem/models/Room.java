@@ -38,9 +38,9 @@ public class Room {
   @JsonIgnore
   private List<RoomReservation> roomReservations;
 
-//  @OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
-//  @JsonIgnore
-//  private List<CleaningHistory> cleaningHistories;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "room")
+  @JsonIgnore
+  private List<CleaningHistory> cleaningHistories;
 
   public Room() {}
 

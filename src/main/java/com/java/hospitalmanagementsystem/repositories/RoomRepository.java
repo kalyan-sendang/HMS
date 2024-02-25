@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -45,8 +46,18 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
       @Param("dateFrom") Date dateFromSql, @Param("dateTo") Date dateToSql);
 
 //  @Query(
-//      "SELECT r FROM Room r JOIN RoomReservation rr ON r.id = rr.room.id WHERE "
-//          + "rr.fromDate <= CURRENT_DATE AND rr.toDate >= CURRENT_DATE AND r.id NOT IN ("
-//          + "SELECT ch.room.id FROM CleaningHistory ch WHERE DATE(ch.cleanedAt) = CURRENT_DATE)")
-//  List<Room> findActiveReservationRoomsNotCleanedToday();
+//          "SELECT r FROM Room r JOIN RoomReservation rr ON r.id = rr.room.id WHERE "
+//                  + "rr.fromDate <: currentDate AND rr.toDate >: currentDate AND r.id NOT IN ("
+//                  + "SELECT ch.room.id FROM CleaningHistory ch WHERE DATE(ch.cleanedAt) : currentDate)")
+//  List<Room> findActiveReservationRoomsNotCleanedToday(@Param("currentDate")LocalDate currentDate);
+@Query(
+        "SELECT r FROM Room r " +
+                "JOIN RoomReservation rr ON r.id = rr.room.id " +
+                "WHERE rr.fromDate <= :currentDate AND rr.toDate >= :currentDate AND r.id NOT IN (" +
+                "SELECT ch.room.id FROM CleaningHistory ch WHERE FUNCTION('DATE', ch.cleanedAt) = :currentDate)"
+)
+List<Room> findActiveReservationRoomsNotCleanedToday(@Param("currentDate") LocalDate currentDate);
+
+
+
 }
