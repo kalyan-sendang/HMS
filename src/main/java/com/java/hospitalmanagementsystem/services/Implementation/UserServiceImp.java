@@ -1,9 +1,12 @@
 package com.java.hospitalmanagementsystem.services.Implementation;
 
 
+import com.java.hospitalmanagementsystem.models.TokenType;
 import com.java.hospitalmanagementsystem.models.User;
 import com.java.hospitalmanagementsystem.models.dto.User.*;
+import com.java.hospitalmanagementsystem.models.dto.auth.AuthenticationResponse;
 import com.java.hospitalmanagementsystem.repositories.UserRepository;
+import com.java.hospitalmanagementsystem.security.EmailService;
 import com.java.hospitalmanagementsystem.security.JwtService;
 import com.java.hospitalmanagementsystem.security.SecurityTools;
 import com.java.hospitalmanagementsystem.services.UserService;
@@ -39,7 +42,7 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-//    private final EmailService emailService;
+    private final EmailService emailService;
     private final SecurityTools securityTools;
     private final JwtService jwtService;
 
@@ -110,36 +113,36 @@ public class UserServiceImp implements UserService {
         userRepository.save(user);
     }
 
-//    @Override
-//    @Transactional
-//    public AuthenticationResponse updateEmail(EmailChangeRequest emailChangeRequest) {
-//        userRepository
-//                .findByEmail(emailChangeRequest.getEmail())
-//                .ifPresent(
-//                        row -> {
-//                            throw new IllegalArgumentException("Email already exists");
-//                        });
-//
-//        User user = securityTools.retrieveUserData();
-//
-//        user.setEmail(emailChangeRequest.getEmail());
-//        user.setVerified(null);
-//        emailService.sendConfirmationEmail(user);
-//        userRepository.save(user);
-//
-//        String jwtToken = jwtService.generateToken(user);
-//        jwtService.revokeAllUserTokens(user, TokenType.TokenTypeEnum.ACCESS);
-//        jwtService.saveUserToken(user, jwtToken, TokenType.TokenTypeEnum.ACCESS);
-//
-//        return AuthenticationResponse.builder().token(jwtToken).build();
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void resentEmailVerification() {
-//        User user = securityTools.retrieveUserData();
-//        emailService.sendConfirmationEmail(user);
-//    }
+    @Override
+    @Transactional
+    public AuthenticationResponse updateEmail(EmailChangeRequest emailChangeRequest) {
+        userRepository
+                .findByEmail(emailChangeRequest.getEmail())
+                .ifPresent(
+                        row -> {
+                            throw new IllegalArgumentException("Email already exists");
+                        });
+
+        User user = securityTools.retrieveUserData();
+
+        user.setEmail(emailChangeRequest.getEmail());
+        user.setVerified(null);
+        emailService.sendConfirmationEmail(user);
+        userRepository.save(user);
+
+        String jwtToken = jwtService.generateToken(user);
+        jwtService.revokeAllUserTokens(user, TokenType.TokenTypeEnum.ACCESS);
+        jwtService.saveUserToken(user, jwtToken, TokenType.TokenTypeEnum.ACCESS);
+
+        return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    @Override
+    @Transactional
+    public void resentEmailVerification() {
+        User user = securityTools.retrieveUserData();
+        emailService.sendConfirmationEmail(user);
+    }
 
     @Override
     @Transactional
@@ -163,17 +166,17 @@ public class UserServiceImp implements UserService {
         userRepository.save(user.get());
     }
 
-//    @Override
-//    public int getUserRoomReservationsCount() {
-//        User user = securityTools.retrieveUserData();
-//        return user.getRoomReservations().size();
-//    }
-//
-//    @Override
-//    public int getUserEntertainmentReservationsCount() {
-//        User user = securityTools.retrieveUserData();
-//        return user.getEntertainmentReservations().size();
-//    }
+    @Override
+    public int getUserRoomReservationsCount() {
+        User user = securityTools.retrieveUserData();
+        return user.getRoomReservations().size();
+    }
+
+    @Override
+    public int getUserEntertainmentReservationsCount() {
+        User user = securityTools.retrieveUserData();
+        return user.getEntertainmentReservations().size();
+    }
 
     @Override
     public void update(Integer id, UserUpdateRequest userUpdateRequest) {

@@ -76,13 +76,13 @@ public class RoomReservation extends Reservation {
    * @param user      The user who made the reservation.
    * @param payment   The payment information associated with the reservation.
    */
-  public RoomReservation(
-      Date fromDate, Date toDate, Timestamp bookedAt, Room room, User user, Payment payment) {
-    this.fromDate = fromDate;
-    this.toDate = toDate;
-    this.bookedAt = bookedAt;
-    this.room = room;
-    this.user = user;
-    this.payment = payment;
-  }
+//  public RoomReservation(
+//      Date fromDate, Date toDate, Timestamp bookedAt, Room room, User user, Payment payment) {
+//    this.fromDate = fromDate;
+//    this.toDate = toDate;
+//    this.bookedAt = bookedAt;
+//    this.room = room;
+//    this.user = user;
+//    this.payment = payment;
+//  }
 }

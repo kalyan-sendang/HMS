@@ -99,13 +99,13 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Token> tokens;
 
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<EntertainmentReservation> entertainmentReservations;
-//
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    private List<RoomReservation> roomReservations;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.EAGER)
+    private List<EntertainmentReservation> entertainmentReservations;
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.EAGER)
+    private List<RoomReservation> roomReservations;
 
     public User() {}
 

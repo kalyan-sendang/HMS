@@ -23,18 +23,18 @@ public interface UserService {
     boolean checkEmailVerification();
 
     void updatePassword(PasswordChangeRequest passwordChangeRequest);
-//
-//    AuthenticationResponse updateEmail(EmailChangeRequest emailChangeRequest);
-//
-//    void resentEmailVerification();
+
+    AuthenticationResponse updateEmail(EmailChangeRequest emailChangeRequest);
+
+    void resentEmailVerification();
 
     void updatePhone(PhoneChangeRequest phoneChangeRequest);
 
     void updateDiscount(int id, DiscountChangeRequest discountChangeRequest);
 
-//    int getUserRoomReservationsCount();
-//
-//    int getUserEntertainmentReservationsCount();
+    int getUserRoomReservationsCount();
+
+    int getUserEntertainmentReservationsCount();
 
     List<UserDto> getByMatching(String name);
 
