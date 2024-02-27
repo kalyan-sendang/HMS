@@ -6,7 +6,7 @@
 * Language: **Java 17**
 * Framework: **Spring Boot**
 * Build Tool: **Maven**
-* Database: **MySQL**
+* Database: **PostgreSQL**
 * ORM: **Spring Data JPA**
 * Security: **Spring Security**
 * Authentication & Authorization: **JWT**
