@@ -10,5 +10,4 @@
 * ORM: **Spring Data JPA**
 * Security: **Spring Security**
 * Authentication & Authorization: **JWT**
-* Testing: **JUnit 5, Mockito, Spring Test**
 * Logging: **SLF4J**
