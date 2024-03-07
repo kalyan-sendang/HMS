@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: hotel
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5433:5433"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    command: -p 5433
+    networks:
+      - back-net
+
+  backend:
+    image: hotel-image
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - db
+    environment:
+      JDBC_URL: jdbc:postgresql://db:5433/hotel
+      JDBC_USERNAME: postgres
+      JDBC_PASSWORD: 12345
+      MAILTRAP_USERNAME: dummy
+      MAILTRAP_PASSWORD:  dummy
+    networks:
+      - back-net
+
+volumes:
+  postgres_data:
+
+networks:
+  back-net:
+    driver: bridge
