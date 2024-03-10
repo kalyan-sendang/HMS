@@ -52,7 +52,7 @@ public class UserControllerTest {
     public void setup() {
         Role role = new Role(Role.RoleEnum.ROLE_USER);
         roleRepository.save(role);
-        user = new User("kalyan", "sendang", "kalyan@gmail.com","9804993544",10,"Kalyan@123", role);
+        user = new User("kalyan", "sendang", "kalyan@gmail.com","9804993588",10,"Kalyan@123", role);
         user1 = new User("test", "test", "test@gmail.com", "980499567", 20, "Test@123", role);
         userRepository.save(user);
         userRepository.save(user1);

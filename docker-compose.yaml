@@ -6,8 +6,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: hotel
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
     ports:
       - "5433:5433"
     volumes:
@@ -25,10 +25,10 @@ services:
       - db
     environment:
       JDBC_URL: jdbc:postgresql://db:5433/hotel
-      JDBC_USERNAME: postgres
-      JDBC_PASSWORD: 12345
-      MAILTRAP_USERNAME: 7187131aa0dded
-      MAILTRAP_PASSWORD:  465e4feac3a738
+      JDBC_USERNAME:
+      JDBC_PASSWORD:
+      MAILTRAP_USERNAME:
+      MAILTRAP_PASSWORD:
     networks:
       - back-net
 

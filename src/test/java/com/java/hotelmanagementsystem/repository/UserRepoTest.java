@@ -33,7 +33,7 @@ public class UserRepoTest {
         user.setFirstName("kalyan");
         user.setLastName("sendang");
         user.setEmail("kalyan@gmail.com");
-        user.setPhone("9804993544");
+        user.setPhone("9804993523");
         user.setPassword("Kalyan@123");
         user.setDiscount(10);
         user.setVerified(null);
