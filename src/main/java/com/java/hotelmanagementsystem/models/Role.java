@@ -21,8 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Table(name = "Role")
 public class Role implements GrantedAuthority {
-
-
     /**
      * Enum representing different user roles in the system.
      *

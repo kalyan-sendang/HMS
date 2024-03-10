@@ -27,8 +27,8 @@ services:
       JDBC_URL: jdbc:postgresql://db:5433/hotel
       JDBC_USERNAME: postgres
       JDBC_PASSWORD: 12345
-      MAILTRAP_USERNAME: dummy
-      MAILTRAP_PASSWORD:  dummy
+      MAILTRAP_USERNAME: 7187131aa0dded
+      MAILTRAP_PASSWORD:  465e4feac3a738
     networks:
       - back-net
 

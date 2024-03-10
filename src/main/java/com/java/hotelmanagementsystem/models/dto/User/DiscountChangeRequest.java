@@ -2,10 +2,7 @@ package com.java.hotelmanagementsystem.models.dto.User;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Represents a request to change a user's discount level, specifying the new discount value. This
@@ -14,6 +11,8 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DiscountChangeRequest {
