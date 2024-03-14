@@ -74,7 +74,7 @@ public class UserControllerTest {
     @Test
     @DisplayName("Junit to get a User by userName")
     @WithMockUser(username = "kalyan@gmail.com", roles = "USER")
-    void givenUserToken_whenGetUser_thenReturnUnauthorized ()throws Exception{
+    void givenUserToken_whenGetUser_thenReturnUnauthorized () throws Exception{
         mockMvc.perform(get("/api/v1/user/get-by-matching/kalyan"))
                 .andExpect(status().isUnauthorized());
     }
