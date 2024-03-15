@@ -15,6 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -89,6 +90,118 @@ public class RoomControllerTest {
                 .andExpect(jsonPath("$.data.number", is(5)));
         Assertions.assertEquals(6, roomRepository.findAll().size());
     }
+    @Test
+    @DisplayName("Junit to get all Room")
+    void givenRoomObject_whenGetAll_thenReturnAllRoom() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/getAll"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data[0].number", is(1)))
+                .andExpect(jsonPath("$.data[1].number", is(2)));
+    }
 
+    @Test
+    @DisplayName("Junit to delete Room")
+    @WithMockUser(username = "test@example.com", roles = "ADMIN")
+    void givenRoomId_whenDelete_thenReturnNull() throws Exception{
+        mockMvc
+                .perform(delete("/api/v1/room/delete/1")
+                        .contentType("application/json"))
+                .andExpect(status().isOk());
+                Assertions.assertEquals(4, roomRepository.findAll().size());
+    }
+    @Test
+    @DisplayName("Junit to get Room Availabilty True")
+    @WithMockUser(username = "test@example.com", roles = "ADMIN")
+    void givenRoomDate_whenGetAvailable_thenReturnTrue() throws Exception{
+        mockMvc
+                .perform(get("/api/v1/room/room-available/1/2024-03-15/2024-03-16"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", is(true)));
+    }
+
+    @Test
+    @DisplayName("Junit to get Room Availability False")
+    void givenRoomDate_whenGetAvailable_thenReturnFalse() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/room-available/1/2028-10-10/2028-10-12"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data", is(false)));
+    }
+    @Test
+    @DisplayName("Junit to get Room Availability and Type not Occupied")
+    void givenRoomDate_whenGetRoomAndTypeOccupied_thenReturnRoomAvailable() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/available/2028-10-15/2028-10-18/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(5)));
+    }
+
+    @Test
+    @DisplayName("Junit to get Room Availability and Type not Occupied")
+    void givenRoomDate_whenGetRoomAndTypeOccupied_thenReturnRoomNotAvailable() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/available/2028-10-10/2028-10-12/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(4)));
+    }
+    @Test
+    @DisplayName("Junit to get all Room Types")
+    void givenRoomObj_whenGetAllTypes_thenReturnAllRoomTypes() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/all-room-type"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(1)));
+    }
+
+    @Test
+    @DisplayName("Junit to test room by availability and Occupancy")
+    void getAllRoomTypesByAvailabilityAndOccupancy() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/available-room-type/2028-10-15/2028-10-18/3"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(1)));
+    }
+    @Test
+    @DisplayName("Junit to get Room by Availability and Occupancy")
+    void getAllRoomTypesByAvailabilityAndOccupancyToBigOccupancy() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/available-room-type/2028-10-15/2028-10-18/6"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(0)));
+    }
+
+    @Test
+    @DisplayName("Junit to get Room by availability and not occupied")
+    void getAllRoomByAvailabilityNotOccupied() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/available-rooms/2028-10-15/2028-10-18"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(5)));
+    }
+
+    @Test
+    @DisplayName("Junit to get Room by Availability and occupied")
+    void getAllRoomByAvailabilityOccupied() throws Exception {
+        mockMvc
+                .perform(get("/api/v1/room/available-rooms/2028-10-10/2028-10-12"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(4)));
+    }
+
+    @Test
+    @DisplayName("Junit to get update Price of room")
+    @WithMockUser(username = "test@example.com", roles = "ADMIN")
+    void givenPrice_whenUpdatePrice_thenReturnRoomWithUpdatePrice() throws Exception {
+        List<RoomType> roomTypes = roomTypeRepository.findAll();
+        roomTypes.get(0).setPrice(200);
+        mockMvc
+                .perform(
+                        patch("/api/v1/room/update-price")
+                                .contentType("application/json")
+                                .content(objectMapper.writeValueAsString(roomTypes)))
+                .andExpect(status().isOk());
+        assertEquals(200, roomTypeRepository.findById(1).get().getPrice());
+    }
 
 }
